@@ -11,7 +11,7 @@ def handler(request):
         print("No URL provided!")
         return {}
 
-    print("%s sha256:%s" % (url, hashlib.sha256(requests.get(url).content).hexdigest()))
+    print(f"{url} sha256:{hashlib.sha256(requests.get(url).content).hexdigest()}")
     return {
         "url": flask.escape(url),
         "sha256": hashlib.sha256(requests.get(url).content).hexdigest(),

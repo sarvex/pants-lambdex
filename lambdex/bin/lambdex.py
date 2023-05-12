@@ -74,7 +74,7 @@ def write_lambdex_handler(pex_zip, options):
             die('--script must be a python file that ends with ".py"')
         # TODO(wickman) Validate that there is a symbol w/in the file that
         # matches the method using ast.parse
-        entry_point = "%s:%s" % (filename_prefix, method)
+        entry_point = f"{filename_prefix}:{method}"
     else:
         entry_point = options.entry_point
 
@@ -161,9 +161,8 @@ def configure_build_command(parser):
 def load_json_blob(filename):
     if filename == "-":
         return json.loads(sys.stdin.read())
-    else:
-        with open(filename, "rb") as fp:
-            return json.load(fp)
+    with open(filename, "rb") as fp:
+        return json.load(fp)
 
 
 CHUNK_SIZE = 64 * 1024
@@ -178,10 +177,10 @@ def hash_file(filename, hasher=hashlib.sha256):
 
 
 def unzip(filename, path):
-    os.makedirs(path + "~")
+    os.makedirs(f"{path}~")
     with contextlib.closing(zipfile.ZipFile(filename, "r")) as zfp:
-        zfp.extractall(path=path + "~")
-    os.rename(path + "~", path)
+        zfp.extractall(path=f"{path}~")
+    os.rename(f"{path}~", path)
 
 
 @contextlib.contextmanager
@@ -223,7 +222,7 @@ def test_lambdex(args):
         sys.path.append(target)
 
         with chdir(target):
-            runner = EntryPoint.parse("run = %s" % lambdex_entry_point).resolve()
+            runner = EntryPoint.parse(f"run = {lambdex_entry_point}").resolve()
             if args.type == EVENT_FUNCTION_SIGNATURE:
                 if args.empty:
                     runner({}, None)

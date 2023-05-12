@@ -51,7 +51,7 @@ if not __lambdex_entry_point:
     __lambdex_info = __json.loads(__lambdex_info_blob)
     __lambdex_entry_point = __lambdex_info["entry_point"]
 
-__RUNNER = __EntryPoint.parse("run = %s" % __lambdex_entry_point).resolve()
+__RUNNER = __EntryPoint.parse(f"run = {__lambdex_entry_point}").resolve()
 
 
 def handler(*args, **kwargs):
